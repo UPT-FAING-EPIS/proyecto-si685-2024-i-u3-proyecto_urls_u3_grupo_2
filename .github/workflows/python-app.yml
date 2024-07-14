@@ -29,4 +29,7 @@ jobs:
     - name: Run Python script
       run: |
         cd AcortadorURL
-        python run.py
+        python run.py > /dev/null 2>&1 &   # Ejecuta Flask en segundo plano
+        sleep 3   # Espera un momento para que Flask se inicie correctamente
+        curl -sSf http://127.0.0.1:5000   # Realiza una solicitud HTTP para verificar que Flask está corriendo
+        kill $(jobs -p)   # Detiene el proceso de Flask después de verificar que está corriendo correctamente
